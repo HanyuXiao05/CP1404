@@ -25,7 +25,7 @@ def main():
         if user_choice == "L":
             load_project()
         elif user_choice == "S":
-            save_file()
+            save_project()
         elif user_choice == "D":
             display_projects()
         elif user_choice == "F":
@@ -48,6 +48,7 @@ def load_project():
     if project_name:
         read_file(project_name)
     else:
+        print("Invalid filename, save in default file.")
         read_file()
 
 
@@ -102,19 +103,42 @@ def add_project():
     projects.append(Project(name, start_date, priority, cost_estimate, completion_percentage))
 
 
+def get_valid_date(prompt):
+    """return a valid date"""
+    valid_date = False
+    date = 0
+    while not valid_date:
+        date = input(prompt)
+        try:
+            date = datetime.datetime.strptime(date, "%d/%m/%Y").date()
+        except ValueError:
+            print("Invalid date,please input again.")
+            date = input(prompt)
+        valid_date = True
+    return date
+
+
 def filter_project():
     """filter project by date"""
-    date_string = input("Show projects that start after date (dd/mm/yy): ")
-    start_date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
+    start_date = get_valid_date("Show projects that start after date (dd/mm/yy): ")
     for project in projects:
         project_date = datetime.datetime.strptime(project.start_date, "%d/%m/%Y").date()
         if start_date < project_date:
             print(project)
 
 
-def save_file():
+def save_project():
+    project_name = input("Enter project name: ")
+    if project_name:
+        save_file(project_name)
+    else:
+        print("Invalid filename, save in default file.")
+        save_file()
+
+
+def save_file(filename=FILENAME):
     """save the project data into file"""
-    with open(FILENAME, "w") as on_file:
+    with open(filename, "w") as on_file:
         print("Name	Start Date	Priority	Cost Estimate	Completion Percentage", file=on_file)
         for project in projects:
             print(f"{project.name}\t"
