@@ -15,6 +15,7 @@ class Guitar:
         return f'{self.name} ({self.year}) : ${self.cost:.2f} added.'
 
     def __lt__(self, other):
+        """less than method for the object"""
         return self.year < other.year
 
     def get_age(self):
