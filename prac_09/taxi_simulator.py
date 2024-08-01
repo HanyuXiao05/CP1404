@@ -5,6 +5,7 @@ MENU = "q)uit, c)hoose taxi, d)rive"
 
 
 def main():
+    """A program of taxi simulator"""
     current_taxi = None
     taxis = [Taxi("Prius", 100), SilverServiceTaxi("Limo", 100, 2), SilverServiceTaxi("Hummer", 200, 4)]
     total_bill = 0
@@ -45,10 +46,12 @@ def display_taxis(taxis):
 
 
 def drive_taxi(current_taxi):
+    """drive the taxi"""
     current_taxi.start_fare()
     drive_distance = float(input("Drive how far? "))
     current_taxi.drive(drive_distance)
     trip_cost = current_taxi.get_fare()
     return trip_cost
+
 
 main()
